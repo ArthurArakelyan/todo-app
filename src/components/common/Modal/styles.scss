@@ -33,6 +33,7 @@
 }
 .modal__title {
   font-size: 24px;
+  transition: font-size .4s ease-in-out;
 }
 
 .modal__body {
@@ -73,4 +74,64 @@
   padding: 10px;
   border-top: 1px gray solid;
   width: 100%;
+}
+
+@media only screen and (max-width: 550px) {
+  .ReactModal__Content {
+    width: 95% !important;
+    inset: 0 !important;
+  }
+}
+
+@media only screen and (max-height: 400px) {
+  .ReactModal__Content {
+    transform: translateY(-30px);
+  }
+  .ReactModal__Content--after-open {
+    transform: translateY(60px);
+  }
+  .ReactModal__Content--before-close {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@media only screen and (max-height: 289px) {
+  .ReactModal__Content {
+    transform: translateY(-40px);
+  }
+  .ReactModal__Content--after-open {
+    transform: translateY(50px);
+  }
+  .ReactModal__Content--before-close {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  .modal__title {
+    font-size: 20px;
+  }
+  .modal__form_input {
+    padding: 0 5px 3px 5px !important;
+    max-height: 30px;
+  }
+  .modal__body {
+    padding: 10px;
+  }
+  .modal__header,
+  .modal__footer {
+    padding: 8px;
+  }
+}
+
+@media only screen and (max-height: 250px) {
+  .ReactModal__Content {
+    transform: translateY(-60px);
+  }
+  .ReactModal__Content--after-open {
+    transform: translateY(20px);
+  }
+  .ReactModal__Content--before-close {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
 }

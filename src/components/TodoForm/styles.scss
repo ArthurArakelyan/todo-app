@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 30px;
 
   input {
     width: 70%;
@@ -15,8 +15,24 @@
 }
 .todo__form_max {
   position: absolute;
-  right: 0;
-  margin-right: 2rem;
+  right: 6%;
   top: -80%;
   color: #afafaf;
+  transition: right .4s ease-in-out;
+}
+
+@media only screen and (max-width: 455px) {
+  .todo__form_max {
+    right: 4.5%;
+  }
+}
+
+
+@media only screen and (max-width: 335px) {
+  .todo__form {
+    margin-top: 20px;
+  }
+  .todo__form_max {
+    right: 4%;
+  }
 }
