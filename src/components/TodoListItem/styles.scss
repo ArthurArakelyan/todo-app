@@ -1,0 +1,32 @@
+.todo__list_item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(223, 215, 215);
+  padding: 5px 10px !important;
+
+  span {
+    font-weight: 500;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    line-break: anywhere;
+  }
+}
+.todo__list_item_actions {
+  width: 20%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  button {
+    width: 35px !important;
+    margin: 3px !important;
+
+    i {
+      font-size: 16px;
+      max-width: 12.5px;
+    }
+  }
+}

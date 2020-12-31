@@ -1,0 +1,76 @@
+.ReactModal__Content {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all .5s ease-in-out;
+}
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: translateY(120px);
+}
+.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0) !important;
+  transition: background-color .5s ease-in-out;
+}
+.ReactModal__Overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+.ReactModal__Overlay--before-close {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px gray solid;
+}
+.modal__title {
+  font-size: 24px;
+}
+
+.modal__body {
+  padding: 15px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+.modal__form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.modal__form_input {
+  outline: none;
+  border: 1.5px solid black;
+  border-radius: 3px;
+}
+.modal__form_input_max {
+  width: 90%;
+  text-align: right;
+  margin-top: 5px;
+}
+.modal__form_max {
+  width: 100%;
+  text-align: right;
+  color: gray;
+}
+
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+  border-top: 1px gray solid;
+  width: 100%;
+}

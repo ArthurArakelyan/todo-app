@@ -1,0 +1,22 @@
+.todo__form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  input {
+    width: 70%;
+  }
+  button {
+    width: 20%;
+  }
+}
+.todo__form_max {
+  position: absolute;
+  right: 0;
+  margin-right: 2rem;
+  top: -80%;
+  color: #afafaf;
+}

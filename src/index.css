@@ -1,0 +1,23 @@
+body {
+  color: black;
+}
+.wrapper {
+  width: 500px;
+  margin: 0 auto;
+}
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+p, span, h1, h2, h3, h4, h5, h6, ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+
+@media only screen and (max-width: 510px) {
+  .wrapper {
+    width: 98%;
+  }
+}
