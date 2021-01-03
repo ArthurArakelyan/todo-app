@@ -11,7 +11,7 @@ class TodoStatusFilter extends React.Component {
             <button
               key={button.id}
               onClick={() => this.props.filterClick(button.id)}
-              className={`btn ${button.active ? 'btn-info' : 'btn-outline-secondary'}`}
+              className={`btn todo__filter_button ${button.active ? 'btn-info' : 'btn-outline-secondary'}`}
             >
               {button.label}
             </button>

@@ -11,7 +11,7 @@ class Modal extends React.Component {
 
     return (
       <ReactModal
-        closeTimeoutMS={500}
+        closeTimeoutMS={400}
         isOpen={this.props.modalIsOpen}
         shouldCloseOnOverlayClick={true}
         onRequestClose={this.props.modalClose}

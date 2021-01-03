@@ -1,7 +1,7 @@
 .ReactModal__Content {
   opacity: 0;
   transform: translateY(-20px);
-  transition: all .5s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 .ReactModal__Content--after-open {
   opacity: 1;
@@ -12,9 +12,16 @@
   transform: translateY(-20px);
 }
 
+.ReactModal__Content--after-open .modal__form_input {
+  width: 100%;
+}
+.ReactModal__Content--before-close .modal__form_input {
+  width: 1%;
+}
+
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0) !important;
-  transition: background-color .5s ease-in-out;
+  transition: background-color .4s ease-in-out;
 }
 .ReactModal__Overlay--after-open {
   background-color: rgba(0, 0, 0, 0.6) !important;
@@ -52,14 +59,8 @@
   flex-direction: column;
 }
 .modal__form_input {
-  outline: none;
-  border: 1.5px solid black;
-  border-radius: 3px;
-}
-.modal__form_input_max {
-  width: 90%;
-  text-align: right;
-  margin-top: 5px;
+  width: 1%;
+  transition: width .6s ease-in-out;
 }
 .modal__form_max {
   width: 100%;

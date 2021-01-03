@@ -9,10 +9,16 @@ import TodoSearch from '../TodoSearch';
 import TodoStatusFilter from '../TodoStatusFilter';
 import TodoListEmpty from '../TodoListEmpty';
 import Modal from '../common/Modal';
+import Spinner from '../common/Spinner';
+
+import JsonPlaceholder from '../../services/JsonPlaceholder';
 
 import './styles.scss';
 
 class Todo extends React.Component {
+
+  jsonPlaceholder = new JsonPlaceholder();
+
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
@@ -22,6 +28,7 @@ class Todo extends React.Component {
 
   state = {
     value: '',
+    loading: true,
     todos: [],
     edittingTodo: {},
     modalIsOpen: false,
@@ -31,6 +38,26 @@ class Todo extends React.Component {
       { id: 3, label: 'Done', name: 'done', active: false }
     ],
     filtered: {}
+  }
+
+  componentDidMount() {
+    this.jsonPlaceholder.getAllTodos()
+      .then(todo => {
+        const newTodos = todo.map(item => {
+          return this.createTodo(item.value, item.id, item.completed);
+        });
+
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            loading: false,
+            todos: newTodos
+          }
+        });
+      })
+      .catch(() => {
+        return;
+      });
   }
 
   createTodo(value, id = nanoid(), completed = false) {
@@ -78,7 +105,7 @@ class Todo extends React.Component {
         ...prevState,
         todos: newTodos
       }
-    })
+    });
   }
 
   todoComplete = (id) => {
@@ -155,10 +182,10 @@ class Todo extends React.Component {
 
   filterClick = (id) => {
     const buttons = this.state.buttons.map(btn => {
-        return {
-          ...btn,
-          active: id === btn.id ? true : false
-        }
+      return {
+        ...btn,
+        active: id === btn.id ? true : false
+      }
     });
 
     this.setState(prevState => {
@@ -182,8 +209,8 @@ class Todo extends React.Component {
       const todoValue = todo.value.toLowerCase();
       const result = todoValue.match(e.target.value.toLowerCase());
 
-      if(result) {
-        if(result['input'] === todoValue) {
+      if (result) {
+        if (result['input'] === todoValue) {
           return {
             ...todo,
             value: todo.value,
@@ -207,6 +234,15 @@ class Todo extends React.Component {
   }
 
   render() {
+    const todoslength = this.state.todos.length;
+    const {loading} = this.state;
+
+    const spinner = (
+      <TodoList>
+        <Spinner />
+      </TodoList>
+    );
+
     return (
       <>
         <div className="todo">
@@ -218,27 +254,34 @@ class Todo extends React.Component {
             valueChange={this.valueChange}
             formSubmit={this.formSubmit}
           />
-          {this.state.todos.length > 0 ? <TodoList>
-            {this.state.todos.map(todo => {
-              const elem = (
-                <TodoListItem
-                  key={todo.id}
-                  todo={todo}
-                  todoComplete={this.todoComplete}
-                  todoDelete={this.todoDelete}
-                  modalOpen={this.modalOpen}
-                />
-              );
-              const filtered = this.filtered();
 
-              return (
-                filtered === 'all' ? elem :
-                filtered === 'active' ? !todo.completed && elem :
-                filtered === 'done' ? todo.completed && elem :
-                elem
-              );
-            })}
-          </TodoList> : <TodoListEmpty emptyTodoList={this.emptyTodoList} />}
+          {todoslength > 0 ?
+            <TodoList>
+              {this.state.todos.map(todo => {
+                const elem = (
+                  <TodoListItem
+                    key={todo.id}
+                    todo={todo}
+                    todoComplete={this.todoComplete}
+                    todoDelete={this.todoDelete}
+                    modalOpen={this.modalOpen}
+                  />
+                );
+
+                const filtered = this.filtered();
+
+                return (
+                  filtered === 'all' ? elem :
+                  filtered === 'active' ? !todo.completed && elem :
+                  filtered === 'done' ? todo.completed && elem :
+                  elem
+                );
+              })}
+            </TodoList>
+            : loading ? spinner
+            : <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />
+          }
+
           <TodoSearch
             todoSearch={this.todoSearch}
           />

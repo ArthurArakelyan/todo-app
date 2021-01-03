@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(223, 215, 215);
+  background-color: transparent;
   padding: 5px 10px !important;
 
   span {
@@ -15,18 +15,18 @@
   }
 }
 .todo__list_item_actions {
-  width: 20%;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
 
   button {
-    width: 35px !important;
     margin: 3px !important;
+    padding: .25rem .6rem !important;
 
     i {
       font-size: 16px;
-      max-width: 12.5px;
+      margin-top: 2px;
+      max-width: 14px;
     }
   }
 }
