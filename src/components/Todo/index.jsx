@@ -235,8 +235,9 @@ class Todo extends React.Component {
   }
 
   render() {
-    const todoslength = this.state.todos.length;
-    const { loading, error } = this.state;
+    const { todos, loading, error } = this.state;
+    const todoslength = todos.length;
+
 
     const errorMessage = (
       <ErrorMessage>
@@ -251,6 +252,10 @@ class Todo extends React.Component {
       <TodoList>
         <Spinner />
       </TodoList>
+    );
+
+    const emptyTodos = (
+      <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />
     );
 
     return (
@@ -287,7 +292,7 @@ class Todo extends React.Component {
                     elem
                   );
                 })}
-              </TodoList> : <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />) : spinner)
+              </TodoList> : emptyTodos) : spinner)
               : errorMessage
           }
 
