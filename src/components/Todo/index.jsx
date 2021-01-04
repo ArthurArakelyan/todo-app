@@ -10,6 +10,7 @@ import TodoStatusFilter from '../TodoStatusFilter';
 import TodoListEmpty from '../TodoListEmpty';
 import Modal from '../common/Modal';
 import Spinner from '../common/Spinner';
+import ErrorMessage from '../common/ErrorMessage';
 
 import JsonPlaceholder from '../../services/JsonPlaceholder';
 
@@ -29,6 +30,7 @@ class Todo extends React.Component {
   state = {
     value: '',
     loading: true,
+    error: false,
     todos: [],
     edittingTodo: {},
     modalIsOpen: false,
@@ -51,13 +53,12 @@ class Todo extends React.Component {
           return {
             ...prevState,
             loading: false,
+            error: false,
             todos: newTodos
           }
         });
       })
-      .catch(() => {
-        return;
-      });
+      .catch(() => this.setState({ error: true }))
   }
 
   createTodo(value, id = nanoid(), completed = false) {
@@ -235,7 +236,16 @@ class Todo extends React.Component {
 
   render() {
     const todoslength = this.state.todos.length;
-    const {loading} = this.state;
+    const { loading, error } = this.state;
+
+    const errorMessage = (
+      <ErrorMessage>
+        <div className="d-flex align-items-center justify-content-center flex-column mt-4">
+          <p>Could not receive data!</p>
+          <p>Please check your connection to internet</p>
+        </div>
+      </ErrorMessage>
+    );
 
     const spinner = (
       <TodoList>
@@ -254,32 +264,31 @@ class Todo extends React.Component {
             valueChange={this.valueChange}
             formSubmit={this.formSubmit}
           />
+          {
+            !error ? (!loading ? (todoslength ?
+              <TodoList>
+                {this.state.todos.map(todo => {
+                  const elem = (
+                    <TodoListItem
+                      key={todo.id}
+                      todo={todo}
+                      todoComplete={this.todoComplete}
+                      todoDelete={this.todoDelete}
+                      modalOpen={this.modalOpen}
+                    />
+                  );
 
-          {todoslength > 0 ?
-            <TodoList>
-              {this.state.todos.map(todo => {
-                const elem = (
-                  <TodoListItem
-                    key={todo.id}
-                    todo={todo}
-                    todoComplete={this.todoComplete}
-                    todoDelete={this.todoDelete}
-                    modalOpen={this.modalOpen}
-                  />
-                );
+                  const filtered = this.filtered();
 
-                const filtered = this.filtered();
-
-                return (
-                  filtered === 'all' ? elem :
-                  filtered === 'active' ? !todo.completed && elem :
-                  filtered === 'done' ? todo.completed && elem :
-                  elem
-                );
-              })}
-            </TodoList>
-            : loading ? spinner
-            : <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />
+                  return (
+                    filtered === 'all' ? elem :
+                    filtered === 'active' ? !todo.completed && elem :
+                    filtered === 'done' ? todo.completed && elem :
+                    elem
+                  );
+                })}
+              </TodoList> : <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />) : spinner)
+              : errorMessage
           }
 
           <TodoSearch
