@@ -8,11 +8,23 @@ class TodoListItem extends React.Component {
     this.todoRef = React.createRef(null);
   }
 
-  componentDidMount() {
+  opacityChange  = () => {
     if(this.todoRef && this.todoRef.current) {
       setTimeout(() => {
         this.todoRef.current.style.opacity = '1'; 
       }, 0);
+    }
+  }
+
+  componentDidMount() {
+    this.opacityChange();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {todo: {searched}} = this.props;
+
+    if(searched !== prevProps.todo.searched) {
+      this.opacityChange();
     }
   }
 
