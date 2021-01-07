@@ -1,21 +1,19 @@
-.todo__list_item {
+.todo__prototype {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: transparent;
   padding: 5px 10px !important;
-  transition: opacity .5s ease-in-out;
 
   span {
     font-weight: 500;
     font-size: 16px;
     margin-right: 10px;
-    cursor: pointer;
     line-break: anywhere;
   }
 }
-.todo__list_item_actions {
+.todo__prototype_buttons {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -23,6 +21,11 @@
   button {
     margin: 3px !important;
     padding: .25rem .6rem !important;
+    cursor: initial;
+
+    &:focus {
+      box-shadow: none;
+    }
 
     i {
       font-size: 16px;

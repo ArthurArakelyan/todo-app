@@ -8,6 +8,8 @@ import TodoForm from '../TodoForm';
 import TodoSearch from '../TodoSearch';
 import TodoStatusFilter from '../TodoStatusFilter';
 import TodoListEmpty from '../TodoListEmpty';
+import TodoPrototype from '../TodoPrototype';
+
 import Modal from '../common/Modal';
 import Spinner from '../common/Spinner';
 import ErrorMessage from '../common/ErrorMessage';
@@ -292,6 +294,7 @@ class Todo extends React.Component {
                     elem
                   );
                 })}
+                <TodoPrototype value={this.state.value} />
               </TodoList> : emptyTodos) : spinner)
               : errorMessage
           }
