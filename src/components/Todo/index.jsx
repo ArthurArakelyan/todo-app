@@ -27,7 +27,7 @@ class Todo extends React.Component {
     this.inputRef = React.createRef();
   }
 
-  maxValue = 40;
+  maxValue = 45;
 
   state = {
     value: '',

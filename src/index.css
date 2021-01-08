@@ -1,6 +1,35 @@
 html, body {
   font-size: 16px;
 }
+.App {
+  min-height: 100vh;
+  transition: all .3s ease-in-out;
+}
+.App.light {
+  background-color: white;
+  color: black;
+}
+.App.dark {
+  background-color: #1E1E1E;
+  color: white;
+}
+.themeChange {
+  position: absolute;
+  top: 0.5%;
+  right: 0.5%;
+  background-color: transparent;
+  color: white;
+  font-size: 20px;
+  outline: none !important;
+  border: none;
+  transition: color .3s ease-in-out;
+}
+.App.light .themeChange {
+  color: black;
+}
+.App.dark .themeChange {
+  color: yellow;
+}
 .wrapper {
   width: 500px;
   margin: 0 auto;

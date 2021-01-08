@@ -44,13 +44,13 @@ class TodoListItem extends React.Component {
             onClick={() => this.props.todoDelete(todo.id)}
             className="btn btn-outline-danger btn-sm"
           >
-            <i className="fa fa-trash-o" />
+            <i className="fas fa-trash-alt" />
           </button>
           <button
             onClick={() => this.props.modalOpen(todo.id)}
             className="btn btn-outline-primary btn-sm"
           >
-            <i className="fa fa-edit" />
+            <i className="far fa-edit" />
           </button>
         </div>
       </li>

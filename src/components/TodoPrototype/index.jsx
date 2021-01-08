@@ -14,12 +14,12 @@ class TodoPrototype extends React.Component {
           <button
             className="btn btn-outline-danger btn-sm disabled"
           >
-            <i className="fa fa-trash-o" />
+            <i className="fas fa-trash-alt" />
           </button>
           <button
             className="btn btn-outline-primary btn-sm disabled"
           >
-            <i className="fa fa-edit" />
+            <i className="far fa-edit" />
           </button>
         </div>
       </li>

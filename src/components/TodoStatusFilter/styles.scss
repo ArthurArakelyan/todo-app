@@ -3,4 +3,8 @@
 }
 .todo__filter_button {
   transition: all .3s ease-in-out;
+
+  &.dark {
+    color: white;
+  }
 }
