@@ -5,7 +5,14 @@
   justify-content: space-between;
   background-color: transparent;
   padding: 5px 10px !important;
-  transition: opacity .5s ease-in-out;
+
+  &.hide {
+    opacity: 0.1 !important;
+  }
+
+  &.hide span {
+    user-select: none;
+  }
 
   span {
     font-weight: 500;
@@ -29,5 +36,12 @@
       font-size: 15px;
       max-width: 14px;
     }
+  }
+}
+
+.todo__list_item.hide .todo__list_item_actions {
+  button {
+    cursor: unset;
+    user-select: none;
   }
 }

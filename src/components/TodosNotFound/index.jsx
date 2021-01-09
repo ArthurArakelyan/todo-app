@@ -1,10 +1,8 @@
 import React from 'react';
 
-import './styles.scss';
-
-class TodoListEmpty extends React.Component {
+class TodosNotFound extends React.Component {
   state = {
-    show: this.props.todos
+    show: false
   }
 
   componentDidMount() {
@@ -23,11 +21,11 @@ class TodoListEmpty extends React.Component {
     const {show} = this.state;
 
     return (
-      <h3 className="todo__list_empty" style={{opacity: show ? 1 : 0}}>
-        Your todo list is empty, <span onClick={this.props.emptyTodoList}>Create new todo</span>
-      </h3>
+      <p style={{opacity: show ? 1 : 0}} className="todos__not_found todo__list_empty">
+        Todo is not found
+      </p>
     );
   }
 }
 
-export default TodoListEmpty;
+export default TodosNotFound;

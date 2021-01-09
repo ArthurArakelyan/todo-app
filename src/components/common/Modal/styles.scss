@@ -60,7 +60,7 @@
 }
 .modal__form_input {
   width: 1%;
-  transition: width .6s ease-in-out;
+  transition: width .6s ease-in-out !important;
 }
 .modal__form_max {
   width: 100%;

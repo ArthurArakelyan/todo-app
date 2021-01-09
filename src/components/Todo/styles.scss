@@ -1,9 +1,15 @@
 .todo {
-  padding-top: 30px;
+  padding-top: 32px;
+}
+
+@media only screen and (max-width: 525px) {
+  .todo {
+    padding-top: 35px;
+  }
 }
 
 @media only screen and (max-width: 335px) {
   .todo {
-    padding-top: 20px;
+    padding-top: 25px;
   }
 }

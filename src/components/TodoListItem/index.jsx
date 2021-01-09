@@ -30,10 +30,15 @@ class TodoListItem extends React.Component {
 
   render() {
     const { todo } = this.props;
+
     return (
-      todo.searched && <li ref={this.todoRef} style={{opacity: 0.5}} className="todo__list_item list-group-item">
+      todo.searched && <li 
+        ref={this.todoRef} 
+        style={{opacity: 0.5}} 
+        className={`todo__list_item ${todo.deleting ? 'hide' : ''} list-group-item`}
+      >
         <span
-          style={{textDecoration: todo.completed ? 'line-through' : 'unset',}}
+          style={{textDecoration: todo.completed ? 'line-through' : 'unset'}}
           onClick={() => this.props.todoComplete(todo.id)}
         >
           {todo.value}

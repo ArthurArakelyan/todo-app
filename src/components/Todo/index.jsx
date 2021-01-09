@@ -9,6 +9,7 @@ import TodoSearch from '../TodoSearch';
 import TodoStatusFilter from '../TodoStatusFilter';
 import TodoListEmpty from '../TodoListEmpty';
 import TodoPrototype from '../TodoPrototype';
+import TodosNotFound from '../TodosNotFound';
 
 import Modal from '../common/Modal';
 import Spinner from '../common/Spinner';
@@ -27,7 +28,8 @@ class Todo extends React.Component {
     this.inputRef = React.createRef();
   }
 
-  maxValue = 45;
+  maxValue = 50;
+  maxTodos = 15;
 
   state = {
     value: '',
@@ -48,7 +50,8 @@ class Todo extends React.Component {
     this.jsonPlaceholder.getAllTodos()
       .then(todo => {
         const newTodos = todo.map(item => {
-          return this.createTodo(item.value, item.id, item.completed);
+          const value = item.value.slice(0, this.maxValue);
+          return this.createTodo(value, item.id, item.completed);
         });
 
         this.setState(prevState => {
@@ -68,7 +71,8 @@ class Todo extends React.Component {
       value,
       id,
       completed,
-      searched: true
+      searched: true,
+      deleting: false
     }
   }
 
@@ -78,7 +82,10 @@ class Todo extends React.Component {
     this.setState(prevState => {
       return {
         ...prevState,
-        todos: prevState.value.trim() ? [...prevState.todos, this.createTodo(prevState.value)] : prevState.todos,
+        todos: prevState.value.trim() 
+        && prevState.todos.length <= this.maxTodos 
+        ? [...prevState.todos, this.createTodo(prevState.value)] 
+        : prevState.todos,
         value: ''
       }
     });
@@ -101,14 +108,30 @@ class Todo extends React.Component {
   }
 
   todoDelete = (id) => {
+    const deletingTodo = this.state.todos.map(todo => {
+      return {
+        ...todo,
+        deleting: id === todo.id ? true : todo.deleting
+      }
+    });
+
     const newTodos = this.state.todos.filter(todo => id !== todo.id);
 
     this.setState(prevState => {
       return {
         ...prevState,
-        todos: newTodos
+        todos: deletingTodo
       }
     });
+
+    setTimeout(() => {
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          todos: newTodos
+        }
+      });
+    }, 410);
   }
 
   todoComplete = (id) => {
@@ -238,8 +261,7 @@ class Todo extends React.Component {
 
   render() {
     const { todos, loading, error } = this.state;
-    const todoslength = todos.length;
-
+    const todosLength = todos.length;
 
     const errorMessage = (
       <ErrorMessage>
@@ -257,22 +279,28 @@ class Todo extends React.Component {
     );
 
     const emptyTodos = (
-      <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todoslength} />
+      <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todosLength} />
     );
+
+    const isNotSearched = !!todos.filter(todo => !todo.searched).length;
 
     return (
       <>
         <div className="todo">
           <TodoHeader todos={this.state.todos} />
+          
           <TodoForm
             value={this.state.value}
+            todos={todosLength}
             maxValue={this.maxValue}
+            maxTodos={this.maxTodos}
             inputRef={this.inputRef}
             valueChange={this.valueChange}
             formSubmit={this.formSubmit}
           />
+
           {
-            !error ? (!loading ? (todoslength ?
+            !error ? (!loading ? (todosLength && !isNotSearched ?
               <TodoList>
                 {this.state.todos.map(todo => {
                   const elem = (
@@ -294,19 +322,21 @@ class Todo extends React.Component {
                     elem
                   );
                 })}
-                <TodoPrototype value={this.state.value} />
-              </TodoList> : emptyTodos) : spinner)
+                {todosLength <= this.maxTodos ? <TodoPrototype value={this.state.value} /> : null}
+              </TodoList> : !todosLength ? emptyTodos : <TodosNotFound />) : spinner)
               : errorMessage
           }
 
           <TodoSearch
             todoSearch={this.todoSearch}
           />
+
           <TodoStatusFilter
             filterClick={this.filterClick}
             buttons={this.state.buttons}
           />
         </div>
+
         <Modal
           modalIsOpen={this.state.modalIsOpen}
           edittingTodo={this.state.edittingTodo}

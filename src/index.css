@@ -46,6 +46,30 @@ li {
   list-style: none;
 }
 
+/*
+*** bootstrap style
+*/
+
+.form-control {
+  transition: box-shadow .4s ease-in-out, background-color .4s ease-in-out;
+}
+.list-group-item {
+  transition: opacity .5s ease-in-out, border-color .3s ease-in-out;
+}
+
+.App.dark .form-control:focus {
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, 0.514) !important;
+}
+.App.dark .list-group-item {
+  border-color: rgba(255, 255, 255, .5);
+}
+
+@media only screen and (min-width: 1000px) {
+  .wrapper {
+    width: 700px;
+  }
+}
+
 @media only screen and (max-width: 515px) {
   .wrapper {
     width: 97%;
