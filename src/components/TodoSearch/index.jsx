@@ -7,7 +7,8 @@ class TodoSearch extends React.Component {
     return (
       <input
         type="text"
-        onChange={this.props.todoSearch}
+        value={this.props.searchValue}
+        onChange={this.props.searchChange}
         className="todo__search form-control form-control-sm"
         placeholder="type to search..."
       />

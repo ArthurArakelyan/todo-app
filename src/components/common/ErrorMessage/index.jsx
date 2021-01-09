@@ -10,7 +10,7 @@ class ErrorMessage extends React.Component {
       this.props.children || 
       <div className="error jumbotron">
         <h2>Error!</h2>
-        <h3>Please reload this page</h3>
+        <h3 onClick={() => window.location.reload()}>Please reload this page</h3>
         <img src={boom} alt="BOOM" />
       </div>
     );

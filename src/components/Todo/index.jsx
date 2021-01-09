@@ -38,6 +38,7 @@ class Todo extends React.Component {
     todos: [],
     edittingTodo: {},
     modalIsOpen: false,
+    searchValue: '',
     buttons: [
       { id: 1, label: 'All', name: 'all', active: true },
       { id: 2, label: 'Active', name: 'active', active: false },
@@ -66,12 +67,30 @@ class Todo extends React.Component {
       .catch(() => this.setState({ error: true }))
   }
 
-  createTodo(value, id = nanoid(), completed = false) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.searchValue !== prevState.searchValue) {
+      this.todoSearch();
+    }
+  }
+
+  createTodo = (value, id = nanoid(), completed = false) => {
+    const search = () => {
+      const result = value.match(this.state.searchValue);
+
+      if (result) {
+        if (result['input'] === value) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     return {
       value,
       id,
       completed,
-      searched: true,
+      searched: search(),
       deleting: false
     }
   }
@@ -82,10 +101,10 @@ class Todo extends React.Component {
     this.setState(prevState => {
       return {
         ...prevState,
-        todos: prevState.value.trim() 
-        && prevState.todos.length <= this.maxTodos 
-        ? [...prevState.todos, this.createTodo(prevState.value)] 
-        : prevState.todos,
+        todos: prevState.value.trim()
+          && prevState.todos.length <= this.maxTodos
+          ? [...prevState.todos, this.createTodo(prevState.value)]
+          : prevState.todos,
         value: ''
       }
     });
@@ -224,24 +243,30 @@ class Todo extends React.Component {
 
   filtered = () => {
     const button = this.state.buttons.find(btn => {
-      return btn.active
+      return btn.active;
     });
 
-    return button.name
+    return button.name;
   }
 
-  todoSearch = (e) => {
+  searchChange = (e) => {
+    const value = e.target.value.toLowerCase();
+
+    this.setState({
+      searchValue: value.length <= this.maxValue ? value : value.slice(0, this.maxValue)
+    });
+  }
+
+  todoSearch = () => {
     const newTodos = this.state.todos.map(todo => {
       const todoValue = todo.value.toLowerCase();
-      const result = todoValue.match(e.target.value.toLowerCase());
+      const result = todoValue.includes(this.state.searchValue);
 
       if (result) {
-        if (result['input'] === todoValue) {
-          return {
-            ...todo,
-            value: todo.value,
-            searched: true
-          }
+        return {
+          ...todo,
+          value: todo.value,
+          searched: true
         }
       }
 
@@ -282,13 +307,13 @@ class Todo extends React.Component {
       <TodoListEmpty emptyTodoList={this.emptyTodoList} todos={todosLength} />
     );
 
-    const isNotSearched = !!todos.filter(todo => !todo.searched).length;
+    const isSearched = todos.filter(todo => todo.searched).length;
 
     return (
       <>
         <div className="todo">
           <TodoHeader todos={this.state.todos} />
-          
+
           <TodoForm
             value={this.state.value}
             todos={todosLength}
@@ -300,7 +325,7 @@ class Todo extends React.Component {
           />
 
           {
-            !error ? (!loading ? (todosLength && !isNotSearched ?
+            !error ? (!loading ? (todosLength && isSearched ?
               <TodoList>
                 {this.state.todos.map(todo => {
                   const elem = (
@@ -323,12 +348,13 @@ class Todo extends React.Component {
                   );
                 })}
                 {todosLength <= this.maxTodos ? <TodoPrototype value={this.state.value} /> : null}
-              </TodoList> : !todosLength ? emptyTodos : <TodosNotFound />) : spinner)
+              </TodoList> : !todosLength ? emptyTodos : !isSearched ? <TodosNotFound /> : emptyTodos) : spinner)
               : errorMessage
           }
 
           <TodoSearch
-            todoSearch={this.todoSearch}
+            searchValue={this.state.searchValue}
+            searchChange={this.searchChange}
           />
 
           <TodoStatusFilter
