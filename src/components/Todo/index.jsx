@@ -75,12 +75,10 @@ class Todo extends React.Component {
 
   createTodo = (value, id = nanoid(), completed = false) => {
     const search = () => {
-      const result = value.match(this.state.searchValue);
+      const result = value.includes(this.state.searchValue);
 
       if (result) {
-        if (result['input'] === value) {
-          return true;
-        }
+        return true;
       }
 
       return false;
