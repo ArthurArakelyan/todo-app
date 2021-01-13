@@ -35,7 +35,7 @@ class Todo extends React.Component {
     value: '',
     loading: true,
     error: false,
-    todos: [],
+    todos: !localStorage.getItem('todos') ? [] : JSON.parse(localStorage.getItem('todos')),
     edittingTodo: {},
     modalIsOpen: false,
     searchValue: '',
@@ -48,27 +48,37 @@ class Todo extends React.Component {
   }
 
   componentDidMount() {
-    this.jsonPlaceholder.getAllTodos()
-      .then(todo => {
-        const newTodos = todo.map(item => {
-          const value = item.value.slice(0, this.maxValue);
-          return this.createTodo(value, item.id, item.completed);
-        });
+    if (!localStorage.getItem('todos')) {
+      this.jsonPlaceholder.getAllTodos()
+        .then(todo => {
+          const newTodos = todo.map(item => {
+            const value = item.value.slice(0, this.maxValue);
+            return this.createTodo(value, item.id, item.completed);
+          });
 
-        this.setState(prevState => {
-          return {
-            ...prevState,
-            loading: false,
-            error: false,
-            todos: newTodos
-          }
-        });
-      })
-      .catch(() => this.setState({ error: true }))
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              loading: false,
+              error: false,
+              todos: newTodos
+            }
+          });
+        })
+        .catch(() => this.setState({ error: true }))
+    } else {
+      this.todoSearch();
+      this.setState({
+        loading: false
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.searchValue !== prevState.searchValue) {
+    if(this.state.todos !== prevState.todos) {
+      const todos = JSON.stringify(this.state.todos)
+      localStorage.setItem('todos', todos);
+    } else if(this.state.searchValue !== prevState.searchValue) {
       this.todoSearch();
     }
   }
@@ -340,9 +350,9 @@ class Todo extends React.Component {
 
                   return (
                     filtered === 'all' ? elem :
-                    filtered === 'active' ? !todo.completed && elem :
-                    filtered === 'done' ? todo.completed && elem :
-                    elem
+                      filtered === 'active' ? !todo.completed && elem :
+                        filtered === 'done' ? todo.completed && elem :
+                          elem
                   );
                 })}
                 {todosLength <= this.maxTodos ? <TodoPrototype value={this.state.value} /> : null}
