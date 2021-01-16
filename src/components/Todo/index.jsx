@@ -74,10 +74,10 @@ class Todo extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.todos !== prevState.todos) {
+    if (this.state.todos !== prevState.todos) {
       const todos = JSON.stringify(this.state.todos)
       localStorage.setItem('todos', todos);
-    } else if(this.state.searchValue !== prevState.searchValue) {
+    } else if (this.state.searchValue !== prevState.searchValue) {
       this.todoSearch();
     }
   }
@@ -97,8 +97,7 @@ class Todo extends React.Component {
       value,
       id,
       completed,
-      searched: search(),
-      deleting: false
+      searched: search()
     }
   }
 
@@ -134,30 +133,14 @@ class Todo extends React.Component {
   }
 
   todoDelete = (id) => {
-    const deletingTodo = this.state.todos.map(todo => {
-      return {
-        ...todo,
-        deleting: id === todo.id ? true : todo.deleting
-      }
-    });
-
     const newTodos = this.state.todos.filter(todo => id !== todo.id);
 
     this.setState(prevState => {
       return {
         ...prevState,
-        todos: deletingTodo
+        todos: newTodos
       }
     });
-
-    setTimeout(() => {
-      this.setState(prevState => {
-        return {
-          ...prevState,
-          todos: newTodos
-        }
-      });
-    }, 410);
   }
 
   todoComplete = (id) => {

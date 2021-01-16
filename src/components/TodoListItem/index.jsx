@@ -35,7 +35,7 @@ class TodoListItem extends React.Component {
       todo.searched && <li 
         ref={this.todoRef} 
         style={{opacity: 0.5}} 
-        className={`todo__list_item ${todo.deleting ? 'hide' : ''} list-group-item`}
+        className={`todo__list_item list-group-item`}
       >
         <span
           style={{textDecoration: todo.completed ? 'line-through' : 'unset'}}
