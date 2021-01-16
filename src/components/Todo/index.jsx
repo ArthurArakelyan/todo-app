@@ -43,8 +43,7 @@ class Todo extends React.Component {
       { id: 1, label: 'All', name: 'all', active: true },
       { id: 2, label: 'Active', name: 'active', active: false },
       { id: 3, label: 'Done', name: 'done', active: false }
-    ],
-    filtered: {}
+    ]
   }
 
   componentDidMount() {
